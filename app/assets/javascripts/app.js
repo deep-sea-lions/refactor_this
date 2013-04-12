@@ -8,18 +8,18 @@ var App = {
 
   addListeners: function() {
     $('a.new-todo').on('click', this.toggleTodoForm);
-    $('.new-form').on('ajax:success', 'form', this.appendTodo);
+    $('.todo-creator').on('ajax:success', 'form', this.appendTodo);
     $('.todos h2').on('click', this.toggleList);
     $('.todos li a').mouseenter(this.showTooltip).mouseleave(this.hideTooltip);
   },
 
   toggleTodoForm: function(e) {
     e.preventDefault();
-    if ($('.new-form').html()) {
-      $('.new-form').toggleClass('hidden');
+    if ($('.todo-creator').html()) {
+      $('.todo-creator').toggleClass('hidden');
     } else {
       var form = HandlebarsTemplates['todo-form']();
-      $('.new-form').html(form);
+      $('.todo-creator').html(form);
     }
   },
 
