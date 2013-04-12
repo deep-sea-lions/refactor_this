@@ -1,6 +1,29 @@
 h2 {
   cursor: pointer;
 }
+
+/* --- */
+
+body #boot-loader {
+  display: none;
+}
+
+body.loading #boot-loader {
+  display: block;
+}
+
+body.loading #loaded {
+  display: none;
+}
+
+/* --- */
+
+.todo-creator.collapsed {
+  display: none;
+}
+
+/* --- */
+
 .tooltip.active {
   position: absolute;
   left: 50%;
@@ -8,8 +31,4 @@ h2 {
   border: 1px solid black;
   background-color: grey;
   padding: 10px;
-}
-
-.hidden {
-  display: none;
 }

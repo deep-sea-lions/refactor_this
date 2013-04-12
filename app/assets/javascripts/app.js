@@ -4,6 +4,8 @@ var App = {
   init: function() {
     this.addListeners();
     this.populateTodoLists();
+
+    $('body').removeClass('loading');
   },
 
   addListeners: function() {
@@ -15,12 +17,7 @@ var App = {
 
   toggleTodoForm: function(e) {
     e.preventDefault();
-    if ($('.todo-creator').html()) {
-      $('.todo-creator').toggleClass('hidden');
-    } else {
-      var form = HandlebarsTemplates['todo-form']();
-      $('.todo-creator').html(form);
-    }
+    $('.todo-creator').toggleClass('collapsed');
   },
 
   appendTodo: function(event, data) {
