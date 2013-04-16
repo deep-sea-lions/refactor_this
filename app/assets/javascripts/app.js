@@ -2,6 +2,8 @@ var App = {
   lists: [],
 
   init: function() {
+    var todoCreator = new TodoCreatorView({el: $('.todo-creator')});
+
     this.addListeners();
     this.populateTodoLists();
 
@@ -9,15 +11,9 @@ var App = {
   },
 
   addListeners: function() {
-    $('a.new-todo').on('click', this.toggleTodoForm);
-    $('.todo-creator').on('ajax:success', 'form', this.appendTodo);
+
     $('.todos h2').on('click', this.toggleList);
     $('.todos li a').mouseenter(this.showTooltip).mouseleave(this.hideTooltip);
-  },
-
-  toggleTodoForm: function(e) {
-    e.preventDefault();
-    $('.todo-creator').toggleClass('collapsed');
   },
 
   appendTodo: function(event, data) {
@@ -26,6 +22,7 @@ var App = {
     var todo = new Todo(data);
     list.addTodo(todo.render());
   },
+
 
   toggleList: function(e){
     $(this).next('ul').toggle();
@@ -60,9 +57,23 @@ var App = {
   findList: function(name) {
     return $.grep(App.lists, function(list){ return list.name == name; })[0];
   }
+
 }
 
 $(document).ready(function() {
   App.init();
 });
 
+var TodoCreatorView = Backbone.View.extend({
+
+  events: {
+    'click .new-todo-button': 'toggleVisibility',
+    'ajax:success .new-todo-form': App.appendTodo
+  },
+
+  toggleVisibility: function(e) {
+    e.preventDefault();
+    this.$el.toggleClass('collapsed');
+  }
+
+});
