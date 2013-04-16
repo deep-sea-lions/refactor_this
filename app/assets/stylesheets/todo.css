@@ -18,9 +18,22 @@ body.loading #loaded {
 
 /* --- */
 
-.todo-creator.collapsed {
+.todo-creator.collapsed .new-todo-form {
   display: none;
 }
+
+.todo-creator.collapsed .new-todo-button {
+  display: inline;
+}
+
+.todo-creator:not(.collapsed) .new-todo-form {
+  display: block;
+}
+
+.todo-creator:not(.collapsed) .new-todo-button {
+  display: inline;
+}
+
 
 /* --- */
 
