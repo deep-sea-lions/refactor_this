@@ -5,5 +5,5 @@ var Todo = function(data) {
 }
 
 Todo.prototype.render = function() {
-  return HandlebarsTemplates['todo-item']({title: this.name, body: this.body, id: this.id})
+  return HandlebarsTemplates['todo-item']({title: this.title, body: this.body, id: this.id})
 }
