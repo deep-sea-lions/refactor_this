@@ -12,17 +12,5 @@
   </form>
 </div>
 
-<div class="tooltip"></div>
 <div class="todos">
-  <% @todos.each do |list, todos| %>
-    <h2><%= list %></h2>
-    <ul id="<%= list.gsub(' ', '-') %>">
-      <% todos.each do |todo| %>
-        <li>
-          <%= link_to todo, todo %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
 </div>

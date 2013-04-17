@@ -1,8 +1,10 @@
 class TodosController < ApplicationController
   before_filter :load_todos
-  respond_to :json
+  respond_to :json, :html
+
   def index
-    @todos = Todo.group_by_list_names
+    @todos = Todo.all
+    respond_with @todos
   end
 
   def new
