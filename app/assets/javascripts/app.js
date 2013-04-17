@@ -2,7 +2,27 @@ var App = {
   lists: [],
 
   init: function() {
-    var todoCreator = new TodoCreatorView({el: $('.todo-creator')});
+    var newTodo = new NewTodo()
+    var todoCreator = new TodoCreatorView({
+      el: $('.todo-creator'),
+      model: newTodo
+    });
+
+    newTodo.on('save', function(){
+      var model = this;
+      $.ajax({
+        url: model.url,
+        method: 'post',
+        data: { todo: model.attributes },
+        success: function(data){
+          console.log(data);
+          // $(this).find('input[type="text"]').val("");  clear inputs
+          var list = App.findOrCreateTodoList(data.list_name);
+          var todo = new Todo(data);
+          list.addTodo(todo.render());
+        }
+      });
+    });
 
     this.addListeners();
     this.populateTodoLists();
@@ -15,14 +35,6 @@ var App = {
     $('.todos h2').on('click', this.toggleList);
     $('.todos li a').mouseenter(this.showTooltip).mouseleave(this.hideTooltip);
   },
-
-  appendTodo: function(event, data) {
-    $(this).find('input[type="text"]').val("");
-    var list = App.findOrCreateTodoList(data.list_name);
-    var todo = new Todo(data);
-    list.addTodo(todo.render());
-  },
-
 
   toggleList: function(e){
     $(this).next('ul').toggle();
@@ -68,12 +80,34 @@ var TodoCreatorView = Backbone.View.extend({
 
   events: {
     'click .new-todo-button': 'toggleVisibility',
-    'ajax:success .new-todo-form': App.appendTodo
+    'submit .new-todo-form': 'save',
+    'blur .new-todo-form': 'fieldBlur'
   },
 
   toggleVisibility: function(e) {
     e.preventDefault();
     this.$el.toggleClass('collapsed');
+  },
+
+  save: function(e){
+    e.preventDefault();
+    this.model.trigger('save');
+  },
+
+  fieldBlur: function(e){
+    this.model.set($(e.target).attr('name'), $(e.target).val())
   }
 
 });
+
+var NewTodo = Backbone.Model.extend({
+  defaults: {
+    title: '',
+    body: '',
+    list_name: ''
+  },
+
+  url: '/todos'
+})
+
+Backbone.sync = function(){}
